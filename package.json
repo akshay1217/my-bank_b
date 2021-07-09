@@ -1,0 +1,22 @@
+{
+  "name": "my-bank_b",
+  "version": "1.0.0",
+  "description": "my bank back-end",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akshay1217/my-bank_b.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/akshay1217/my-bank_b/issues"
+  },
+  "homepage": "https://github.com/akshay1217/my-bank_b#readme",
+  "dependencies": {
+    "nodemon": "^2.0.11"
+  }
+}
