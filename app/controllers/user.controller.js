@@ -1,14 +1,14 @@
 const User = require('../models/user.model.js');
 const jwt = require('jsonwebtoken');
 const config = require('../../config/config.js');
-const message = require('../../translations/user.js');
+const msg = require('../../translations/user.js');
 
 // Create and Save a new user
 exports.signUp = (req, res) => {
     // Validate request
     if (!req.body.userName || !req.body.email || !req.body.password) {
         return res.status(400).send({
-            message: message.fillForm
+            message: msg.fillForm
         });
     }
 
@@ -25,14 +25,14 @@ exports.signUp = (req, res) => {
     User.find({email : req.body.email.toString().toLowerCase()})
                 .then(user => {
                     if (user.length > 0){
-                        res.send({errorMessage: message.userExist})
+                        res.send({errorMessage: msg.userExist})
                     }else {
                         userObj.save()
                         .then(data => { 
                             res.send({message: "success"});
                         }).catch(err => {
                             res.status(500).send({
-                                message: err.message || message.signupError
+                                message: err.message || msg.signupError
                             });
                         });
                     }
@@ -46,7 +46,7 @@ exports.signUp = (req, res) => {
 exports.signIn = (req, res) => {
     if (!req.body.email.toString().toLowerCase() || !req.body.password) {
         return res.status(400).send({
-            message: message.fillForm
+            message: msg.fillForm
         });
     }
 
@@ -56,16 +56,16 @@ exports.signIn = (req, res) => {
                 // console.log(user)
                 var token = jwt.sign({ userId: user[0]._id}, config.privateKey);
                 res.send({
-                    message: message.loginSuccess,
+                    message: msg.loginSuccess,
                     userId : user[0]._id,
                     token
                 })
             }else {
-                res.send({errorMessage: message.loginFailed});
+                res.send({errorMessage: msg.loginFailed});
             }        
         }).catch(err => {
             res.status(500).send({
-                message: err.message || message.loginError
+                message: err.message || msg.loginError
             });
         });
 };
@@ -78,7 +78,7 @@ exports.findAllUsers = (req, res) => {
             res.send(prods);
         }).catch(err => {
             res.status(500).send({
-                message: err.message || message.userError
+                message: err.message || msg.userError
             });
         });
 };
@@ -89,18 +89,18 @@ exports.deleteUserFromDB = (req, res) => {
         .then(prod => {
             if (!prod) {
                 return res.status(404).send({
-                    message: message.userNotFound + req.params._id
+                    message: msg.userNotFound + req.params._id
                 });
             }
-            res.send({ message: message.userRemoved });
+            res.send({ message: msg.userRemoved });
         }).catch(err => {
             if (err.kind === 'ObjectId' || err.name === 'NotFound') {
                 return res.status(404).send({
-                    message: message.userNotFound + req.params._id
+                    message: msg.userNotFound + req.params._id
                 });
             }
             return res.status(500).send({
-                message: message.couldNotDeluser + req.params._id
+                message: msg.couldNotDeluser + req.params._id
             });
         });
 };
