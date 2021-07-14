@@ -1,3 +1,4 @@
+const removeBG = require('remove.bg');
 const express = require('express');
 const bodyParser = require('body-parser');
 
@@ -54,8 +55,26 @@ app.get('/', (req, res) => {
 require('./app/routes/user.route.js')(app);
 require('./app/routes/payee.route.js')(app);
 
-
 // listen for requests
 app.listen(5000, () => {
     console.log("Server is listening on port 5000");
+   // removeImgbg() ==> to remove background from img.
 });
+
+const removeImgbg = () =>{
+    const url = "https://cdn.pixabay.com/photo/2018/01/25/14/12/nature-3106213_960_720.jpg";
+    const outputFile = `${__dirname}/app/images/img-removed-from-file.png`;
+    
+    removeBG.removeBackgroundFromImageUrl({
+        url,
+        apiKey: "MnGEce5BQ5D3oGea2mDgSrgw", // You can use once per day. Free version.
+        size: "regular",
+        type: "person",
+        outputFile 
+    }).then((result) => {
+        console.log(`File saved to ${outputFile}`);
+        const base64img = result.base64img;
+    }).catch((errors) => {
+        console.log(JSON.stringify(errors));
+    });
+}
