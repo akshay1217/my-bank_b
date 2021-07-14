@@ -6,10 +6,10 @@ module.exports = (app) => {
     app.post('/payee/add',aunthentication, payee.addPayee);
 
     // find payee
-    app.get('/payee',aunthentication, payee.findAllPayee);
+    app.post('/payee',aunthentication, payee.findAllPayee);
 
     //find payee to add
-    app.get('/payee/payeeToAdd', aunthentication, payee.getPayeeListToAdd);
+    app.post('/payee/payeeToAdd', aunthentication, payee.getPayeeListToAdd);
 
    // Delete a payee from list for a user
    app.delete('/payee/delete', aunthentication , payee.deletePayee);

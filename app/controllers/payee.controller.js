@@ -41,9 +41,21 @@ exports.addPayee = (req, res) => {
 // Retrieve and return all Users from the database.
 
 exports.findAllPayee = (req, res) => {
+    let payeeListNames = []
     Payee.find({userId: req.body.userId})
-        .then(list => {
-            res.send(list);
+        .then(payeeList => {
+                payeeList.map((item, index)=>{
+                    payeeList.push(item.payeeId)
+                })
+                    User.find({ _id : {$in: payeeList}})
+                        .then(payeeList => {
+                            res.send(payeeList);
+                        })
+                        .catch(err => {
+                            res.status(500).send({
+                                message: err.message || msg.payeeNotFound
+                            });
+                        })
         }).catch(err => {
             res.status(500).send({
                 message: err.message || msg.payeeError
