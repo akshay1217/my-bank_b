@@ -51,6 +51,35 @@ exports.findAllPayee = (req, res) => {
         });
 };
  
+// get list of payee which are not added yet
+exports.getPayeeListToAdd = (req, res) => {
+    let payeeListToExclude = []
+    Payee.find({userId: req.body.userId})
+        .then(payeeList => {
+                // console.log('payeelist', payeeList)
+                payeeList.map((item, index)=>{
+                    payeeListToExclude.push(item.payeeId)
+                })
+                payeeListToExclude.push(req.body.userId)
+                // console.log('payeeListToExclude', payeeListToExclude)
+                    User.find({ _id : {$nin: payeeListToExclude}})
+                        .then(payeeListForUser => {
+                            //  console.log('payeeListForUser', payeeListForUser)
+                            res.send(payeeListForUser);
+                        })
+                        .catch(err => {
+                            res.status(500).send({
+                                message: err.message || msg.payeeNotFound
+                            });
+                        })
+        }).catch(err => {
+            res.status(500).send({
+                message: err.message || msg.payeeError
+            });
+        });
+};
+
+// delete payee 
 exports.deletePayee = (req, res) => {
     Payee.remove({ userId:req.body.userId, payeeId: req.body.payeeId })
         .then(list => {

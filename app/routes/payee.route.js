@@ -8,7 +8,9 @@ module.exports = (app) => {
     // find payee
     app.get('/payee',aunthentication, payee.findAllPayee);
 
+    //find payee to add
+    app.get('/payee/payeeToAdd', aunthentication, payee.getPayeeListToAdd);
+
    // Delete a payee from list for a user
    app.delete('/payee/delete', aunthentication , payee.deletePayee);
-
 }
