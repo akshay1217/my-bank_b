@@ -61,7 +61,7 @@ exports.signIn = (req, res) => {
                     token
                 })
             }else {
-                res.send({errorMessage: msg.loginFailed});
+                res.status(401).send({errorMessage: msg.loginFailed});
             }        
         }).catch(err => {
             res.status(500).send({
